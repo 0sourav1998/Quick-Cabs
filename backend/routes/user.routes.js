@@ -1,5 +1,5 @@
 import express from "express";
-import { register } from "../controllers/user.controller.js";
+import { login, register } from "../controllers/user.controller.js";
 import { body } from "express-validator";
 
 const router = express.Router();
@@ -22,4 +22,20 @@ router.post(
   register
 );
 
+router.post(
+  "/login",
+  [
+    body("email")
+      .isEmail()
+      .withMessage("Please Provide a valid email")
+      .notEmpty()
+      .withMessage("Email Cannot be Empty"),
+    body("password")
+      .notEmpty()
+      .withMessage("Password Field is Required")
+      .isLength({ min: 6 })
+      .withMessage("Password cannot be less tha 6 characters"),
+  ],
+  login
+);
 export default router;

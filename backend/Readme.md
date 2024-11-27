@@ -42,3 +42,40 @@ The API expects a JSON object in the request body with the following fields:
       "email": "user@example.com"
     }
   }
+
+
+# Login Route Documentation
+
+## Endpoint: `/api/v1/auth/login`
+
+This endpoint allows registered users to log in by providing their email and password. Upon successful authentication, the server generates a **JWT token** for session management.
+
+---
+
+## HTTP Method: `POST`
+
+---
+
+## Request Headers
+
+| **Key**        | **Value**           | **Description**             |
+|----------------|---------------------|-----------------------------|
+| `Content-Type` | `application/json`   | Specifies the request body format |
+
+---
+
+## Request Body
+
+The request body must be in JSON format and contain the following fields:
+
+| **Field**    | **Type**   | **Required** | **Validation**                             | **Description**                         |
+|--------------|------------|--------------|--------------------------------------------|-----------------------------------------|
+| `email`      | `string`   | Yes          | Must be a valid email                     | The email of the user                   |
+| `password`   | `string`   | Yes          | Must be at least 6 characters             | The password of the user                |
+
+### Example Request Body:
+```json
+{
+  "email": "user@example.com",
+  "password": "yourpassword"
+}

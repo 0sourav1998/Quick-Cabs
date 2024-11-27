@@ -1,14 +1,15 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import { validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-        success: false,
-        errors: errors.array(),
-      })
+      success: false,
+      errors: errors.array(),
+    });
   }
 
   try {
@@ -49,10 +50,46 @@ export const register = async (req, res) => {
   }
 };
 
-// export const login = (req,res) =>{
-//     try {
-//         const 
-//     } catch (error) {
-        
-//     }
-// }
+export const login = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(401).json({
+      success: false,
+      errors: errors.array(),
+    });
+  }
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User Not Found",
+      });
+    }
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (passwordMatch) {
+      const payload = {
+        _id: user._id,
+      };
+      const token = jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      return res.status(200).json({
+        success: true,
+        message: "Logged In Successfully",
+        token,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Password Does Not Match",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: "Something Went Wrong While Logging In",
+    });
+  }
+};
