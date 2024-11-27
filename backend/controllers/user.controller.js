@@ -75,11 +75,18 @@ export const login = async (req, res) => {
       const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
-      return res.status(200).json({
-        success: true,
-        message: "Logged In Successfully",
-        token,
-      });
+      return res
+        .cookie("token", token, {
+          httpOnly: true,
+          sameSite: strict,
+          maxAge: 60 * 60 * 1000,
+        })
+        .status(200)
+        .json({
+          success: true,
+          message: "Logged In Successfully",
+          token,
+        });
     } else {
       return res.status(400).json({
         success: false,
@@ -92,4 +99,11 @@ export const login = async (req, res) => {
       message: "Something Went Wrong While Logging In",
     });
   }
+};
+
+export const getUserProfile = async (req, res) => {
+  return res.status(200).json({
+    success: true,
+    user: req.user,
+  });
 };

@@ -4,9 +4,7 @@ This API endpoint allows users to register by providing their details such as fi
 
 ---
 
-## Endpoint
-
-### `POST /register`
+## Endpoint: `/api/v1/user/register`
 
 ---
 
@@ -46,7 +44,7 @@ The API expects a JSON object in the request body with the following fields:
 
 # Login Route Documentation
 
-## Endpoint: `/api/v1/auth/login`
+## Endpoint: `/api/v1/user/login`
 
 This endpoint allows registered users to log in by providing their email and password. Upon successful authentication, the server generates a **JWT token** for session management.
 
@@ -79,3 +77,45 @@ The request body must be in JSON format and contain the following fields:
   "email": "user@example.com",
   "password": "yourpassword"
 }
+
+
+
+### `GET /api/v1/user/me`
+
+- **Description**: Fetches the logged-in user's profile data.
+- **Authentication**: Requires a valid JWT token. The token must be sent in the request either via:
+  - Cookies: `token`
+  - Authorization header: `Bearer <token>`
+  
+- **Response**:
+  - **Success (200)**:
+    ```json
+    {
+      "success": true,
+      "user": {
+        "_id": "user-id-here",
+        "fullName": {
+          "firstName": "John",
+          "lastName": "Doe"
+        },
+        "email": "john.doe@example.com"
+      }
+    }
+    ```
+
+  - **Error (401)**: If the token is missing, expired, or invalid:
+    ```json
+    {
+      "success": false,
+      "message": "User Not Authenticated"
+    }
+    ```
+
+## Middleware
+
+### `isAuthenticated`
+
+- **Description**: A middleware function that checks if the user is authenticated by verifying the JWT token.
+- **Usage**: This middleware is used to protect the `/me` route, ensuring only authenticated users can access their profile.
+
+```javascript
