@@ -79,43 +79,42 @@ The request body must be in JSON format and contain the following fields:
 }
 
 
+# Get User Profile
 
-### `GET /api/v1/user/me`
+This endpoint fetches the profile data of the logged-in user. It requires a valid JWT token for authentication.
 
-- **Description**: Fetches the logged-in user's profile data.
-- **Authentication**: Requires a valid JWT token. The token must be sent in the request either via:
-  - Cookies: `token`
-  - Authorization header: `Bearer <token>`
-  
-- **Response**:
-  - **Success (200)**:
-    ```json
-    {
-      "success": true,
-      "user": {
-        "_id": "user-id-here",
-        "fullName": {
-          "firstName": "John",
-          "lastName": "Doe"
-        },
-        "email": "john.doe@example.com"
-      }
+---
+
+## Endpoint: `/api/v1/user/me`
+
+### HTTP Method: `GET`
+
+---
+
+## Authentication
+
+- **Required**: A valid JWT token.
+- The token should be sent either via:
+  - **Cookies**: `token`
+  - **Authorization Header**: `Bearer <token>`
+
+---
+
+## Response
+
+### Success Response
+
+- **Status Code**: `200`
+- **Response Body**:
+  ```json
+  {
+    "success": true,
+    "user": {
+      "_id": "user-id-here",
+      "fullName": {
+        "firstName": "John",
+        "lastName": "Doe"
+      },
+      "email": "john.doe@example.com"
     }
-    ```
-
-  - **Error (401)**: If the token is missing, expired, or invalid:
-    ```json
-    {
-      "success": false,
-      "message": "User Not Authenticated"
-    }
-    ```
-
-## Middleware
-
-### `isAuthenticated`
-
-- **Description**: A middleware function that checks if the user is authenticated by verifying the JWT token.
-- **Usage**: This middleware is used to protect the `/me` route, ensuring only authenticated users can access their profile.
-
-```javascript
+  }
