@@ -1,149 +1,138 @@
 # User Registration API
 
-This API endpoint allows users to register by providing their details such as first name, last name, email, and password. It validates input data, checks for existing users, hashes passwords securely, and stores the user information in the database.
-
----
+This API endpoint allows users to register by providing their details such as first name, last name, email, and password. It validates input data, checks for existing users, securely hashes passwords, and stores the user information in the database.
 
 ## Endpoint: `/api/v1/user/register`
 
----
+### HTTP Method: `POST`
 
-## Request Body
+### Request Body
 
-The API expects a JSON object in the request body with the following fields:
-
-| Field       | Type     | Required | Description                                  |
-|-------------|----------|----------|----------------------------------------------|
-| `firstName` | `string` | Yes      | User's first name (minimum 3 characters).    |
-| `lastName`  | `string` | No       | User's last name (optional).                 |
-| `email`     | `string` | Yes      | User's email address (must be unique).       |
-| `password`  | `string` | Yes      | User's password (minimum 6 characters).      |
-
----
-
-## Response
+- **Fields**:
+  - **`firstName`**: User's first name (minimum 3 characters, required).
+  - **`lastName`**: User's last name (optional).
+  - **`email`**: User's email address (unique and required).
+  - **`password`**: User's password (minimum 6 characters, required).
 
 ### Success Response
 
-- **Status Code:** `200`
-- **Response Body:**
-  ```json
-  {
-    "success": true,
-    "message": "User Created Successfully",
-    "user": {
-      "_id": "unique_user_id",
-      "fullName": {
-        "firstName": "John",
-        "lastName": "Doe"
-      },
-      "email": "user@example.com"
-    }
-  }
+- **Status Code**: `200`
+- **Message**: *User Created Successfully*.
+- **Data**: User details including ID, full name, and email.
 
+---
 
-# Login Route Documentation
+# User Login API
+
+This API allows registered users to log in by providing their email and password. On successful login, it generates a JWT token for session management.
 
 ## Endpoint: `/api/v1/user/login`
 
-This endpoint allows registered users to log in by providing their email and password. Upon successful authentication, the server generates a **JWT token** for session management.
+### HTTP Method: `POST`
 
----
+### Request Body
 
-## HTTP Method: `POST`
-
----
-
-## Request Headers
-
-| **Key**        | **Value**           | **Description**             |
-|----------------|---------------------|-----------------------------|
-| `Content-Type` | `application/json`   | Specifies the request body format |
-
----
-
-## Request Body
-
-The request body must be in JSON format and contain the following fields:
-
-| **Field**    | **Type**   | **Required** | **Validation**                             | **Description**                         |
-|--------------|------------|--------------|--------------------------------------------|-----------------------------------------|
-| `email`      | `string`   | Yes          | Must be a valid email                     | The email of the user                   |
-| `password`   | `string`   | Yes          | Must be at least 6 characters             | The password of the user                |
+- **Fields**:
+  - **`email`**: User's email address (required and valid).
+  - **`password`**: User's password (minimum 6 characters, required).
 
 ### Success Response
 
-- **Status Code:** `200`
-- **Response Body:**
-  ```json
-  {
-    "success": true,
-    "message": "Logged In Successfully",
-    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6wdnqfkwifjwsmskmfoiwejfijawwmdlkDA1Zjk2MjIzZWEiLCJpYXQiOjE3MzI3MTk5MjMsImV4cCI6MTczMjcyMzUyM30.cqYsZ2iO50_3KOHUCE8TK9_VV8CBVWi0Qtd_vnuWbxk"
-  }
+- **Status Code**: `200`
+- **Message**: *Logged In Successfully*.
+- **Token**: JWT token for authentication.
 
+---
 
 # Get User Profile
 
-This endpoint fetches the profile data of the logged-in user. It requires a valid JWT token for authentication.
-
----
+Fetches the profile details of the logged-in user. Requires authentication via a valid JWT token.
 
 ## Endpoint: `/api/v1/user/me`
 
 ### HTTP Method: `GET`
 
----
-
-## Authentication
+### Authentication
 
 - **Required**: A valid JWT token.
-- The token should be sent either via:
-  - **Cookies**: `token`
-  - **Authorization Header**: `Bearer <token>`
-
----
-
-## Response
+- **Methods**:
+  - **Cookies**: Token stored as a cookie.
+  - **Authorization Header**: *Bearer <token>*.
 
 ### Success Response
 
 - **Status Code**: `200`
-- **Response Body**:
-  ```json
-  {
-    "success": true,
-    "user": {
-      "_id": "user-id-here",
-      "fullName": {
-        "firstName": "John",
-        "lastName": "Doe"
-      },
-      "email": "john.doe@example.com"
-    }
-  }
+- **Message**: *Profile Retrieved Successfully*.
+- **Data**: User details including ID, full name, and email.
 
+---
 
-# Captain Registration API Documentation
+# Captain Registration API
 
+This API registers a new captain along with their vehicle details.
+
+## Endpoint: `/api/v1/captain/register`
 
 ### HTTP Method: `POST`
 
-## Endpoint: `POST api/v1/captain/register`
+### Request Body
 
-This endpoint registers a new captain along with their vehicle details.
+- **Fields**:
+  - **`firstName`**: Captain's first name (minimum 3 characters, required).
+  - **`lastName`**: Captain's last name (optional).
+  - **`email`**: Captain's email address (unique and required).
+  - **`password`**: Captain's password (minimum 6 characters, required).
+  - **`color`**: Vehicle color (required).
+  - **`plate`**: Vehicle plate number (required).
+  - **`capacity`**: Vehicle capacity (required).
+  - **`vehicleType`**: Type of vehicle (e.g., car, bike; required).
+
+### Success Response
+
+- **Status Code**: `200`
+- **Message**: *Captain Created Successfully*.
+
+---
+
+# Captain Login API
+
+Enables captains to log in by providing their email and password. Returns a JWT token upon successful login.
+
+## Endpoint: `/api/v1/captain/login`
+
+### HTTP Method: `POST`
 
 ### Request Body
-The request body should contain the following fields:
 
-```json
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john.doe@example.com",
-  "password": "securePassword123",
-  "color": "red",
-  "plate": "ABC1234",
-  "capacity": 4,
-  "vehicleType": "car"
-}
+- **Fields**:
+  - **`email`**: Captain's email address (required).
+  - **`password`**: Captain's password (minimum 6 characters, required).
+
+### Success Response
+
+- **Status Code**: `200`
+- **Message**: *Logged In Successfully*.
+- **Token**: JWT token for authentication.
+
+---
+
+# Get Captain Profile
+
+Fetches the profile details of the logged-in captain. Requires authentication via a valid JWT token.
+
+## Endpoint: `/api/v1/captain/me`
+
+### HTTP Method: `GET`
+
+### Authentication
+
+- **Required**: A valid JWT token.
+- **Methods**:
+  - **Cookies**: Token stored as a cookie.
+  - **Authorization Header**: *Bearer <token>*.
+
+### Success Response
+
+- **Status Code**: `200`
+- **Message**: *Profile Retrieved Successfully*.
+- **Data**: Captain details including ID, full name, email, and vehicle details.
