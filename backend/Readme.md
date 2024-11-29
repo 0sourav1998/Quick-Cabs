@@ -71,12 +71,16 @@ The request body must be in JSON format and contain the following fields:
 | `email`      | `string`   | Yes          | Must be a valid email                     | The email of the user                   |
 | `password`   | `string`   | Yes          | Must be at least 6 characters             | The password of the user                |
 
-### Example Request Body:
-```json
-{
-  "email": "user@example.com",
-  "password": "yourpassword"
-}
+### Success Response
+
+- **Status Code:** `200`
+- **Response Body:**
+  ```json
+  {
+    "success": true,
+    "message": "Logged In Successfully",
+    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6wdnqfkwifjwsmskmfoiwejfijawwmdlkDA1Zjk2MjIzZWEiLCJpYXQiOjE3MzI3MTk5MjMsImV4cCI6MTczMjcyMzUyM30.cqYsZ2iO50_3KOHUCE8TK9_VV8CBVWi0Qtd_vnuWbxk"
+  }
 
 
 # Get User Profile
@@ -118,3 +122,28 @@ This endpoint fetches the profile data of the logged-in user. It requires a vali
       "email": "john.doe@example.com"
     }
   }
+
+
+# Captain Registration API Documentation
+
+
+### HTTP Method: `POST`
+
+## Endpoint: `POST api/v1/captain/register`
+
+This endpoint registers a new captain along with their vehicle details.
+
+### Request Body
+The request body should contain the following fields:
+
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "password": "securePassword123",
+  "color": "red",
+  "plate": "ABC1234",
+  "capacity": 4,
+  "vehicleType": "car"
+}

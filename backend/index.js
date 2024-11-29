@@ -9,18 +9,17 @@ const app = express();
 const PORT = process.env.PORT || 4000 ;
 
 import userRoute from "../backend/routes/user.routes.js"
+import captainRoute from "../backend/routes/captain.routes.js"
 
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser())
 
 connectToDB();
 
-app.get("/",(req,res)=>{
-    res.send("HEllo World")
-})
-
 
 app.use("/api/v1/user",userRoute)
+app.use("/api/v1/captain",captainRoute)
+
 
 
 app.listen(PORT,()=>{

@@ -78,7 +78,7 @@ export const login = async (req, res) => {
       return res
         .cookie("token", token, {
           httpOnly: true,
-          sameSite: strict,
+          sameSite: "strict",
           maxAge: 60 * 60 * 1000,
         })
         .status(200)
@@ -94,6 +94,7 @@ export const login = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error.message)
     return res.status(400).json({
       success: false,
       message: "Something Went Wrong While Logging In",
