@@ -1,15 +1,31 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserDataContext } from "../context/userContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [userData, setUserData] = useState({});
+  const { user, setUser } = useContext(UserDataContext);
+  console.log("USER", user);
+  const navigate = useNavigate();
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({ email: email, password: password });
+    const userData = {
+      email: email,
+      password: password,
+    };
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/api/v1/user/login`,
+      userData
+    );
+    if (response && response.data.success) {
+      setUser(response.data.user);
+      localStorage.setItem("token", JSON.stringify(response.data.token));
+      navigate("/home");
+    }
     setEmail("");
     setPassword("");
   };
@@ -21,7 +37,7 @@ const Login = () => {
           src="https://download.logo.wine/logo/Uber/Uber-Logo.wine.png"
           className="w-16 h-12 mb-7"
         />
-        <form onSubmit={() => submitHandler(e)}>
+        <form onSubmit={(e) => submitHandler(e)}>
           <h3 className="text-lg font-medium mb-2">What's Your Email</h3>
           <input
             required
@@ -52,7 +68,10 @@ const Login = () => {
         </p>
       </div>
       <div>
-        <Link to="/captain-login" className="bg-[#10b461] flex items-center justify-center  text-white font-semibold mb-5 rounded px-4 py-2 w-full text-lg">
+        <Link
+          to="/captain-login"
+          className="bg-[#10b461] flex items-center justify-center  text-white font-semibold mb-5 rounded px-4 py-2 w-full text-lg"
+        >
           Sign In As Captain
         </Link>
       </div>

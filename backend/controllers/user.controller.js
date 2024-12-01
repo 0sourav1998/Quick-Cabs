@@ -14,6 +14,7 @@ export const register = async (req, res) => {
 
   try {
     const { firstName, lastName, email, password } = req.body;
+    console.log(firstName, lastName, email, password)
     if (!firstName || !email || !password) {
       return res.status(200).json({
         success: false,
@@ -60,7 +61,9 @@ export const login = async (req, res) => {
   }
   try {
     const { email, password } = req.body;
+    console.log(email,password)
     const user = await User.findOne({ email: email });
+    console.log(user)
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -75,6 +78,9 @@ export const login = async (req, res) => {
       const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
+      const  updatedUser = user.toObject();
+      delete updatedUser.password ;
+      
       return res
         .cookie("token", token, {
           httpOnly: true,
@@ -85,6 +91,7 @@ export const login = async (req, res) => {
         .json({
           success: true,
           message: "Logged In Successfully",
+          user : updatedUser ,
           token,
         });
     } else {
