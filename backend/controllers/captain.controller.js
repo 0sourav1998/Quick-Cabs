@@ -84,6 +84,8 @@ export const loginCaptain = async (req, res) => {
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
           expiresIn: "1h",
         });
+        const updatedCaptain = captain.toObject();
+        delete updatedCaptain.password ;
         return res
           .cookie("token", token, {
             httpOnly: true,
@@ -94,6 +96,7 @@ export const loginCaptain = async (req, res) => {
           .json({
             success: true,
             message: "Logged In Successfully",
+            updatedCaptain,
             token,
           });
       } else {

@@ -8,6 +8,8 @@ import { useContext } from "react";
 import { UserDataContext } from "./context/userContext";
 import Start from "./pages/Start";
 import UserWrapper from "./components/UserWrapper";
+import CaptainHome from "./pages/CaptainHome";
+import CaptainWrapper from "./components/CaptainWrapper";
 
 function App() {
   const name = useContext(UserDataContext);
@@ -28,6 +30,8 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/captain-login" element={<CaptainLogin />} />
         <Route path="/captain-signup" element={<CaptainSignup />} />
+        <Route path="/captain-home" element={<CaptainWrapper><CaptainHome /> </CaptainWrapper>}/>
+
       </Routes>
     </div>
   );
