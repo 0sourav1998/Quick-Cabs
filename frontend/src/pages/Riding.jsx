@@ -5,15 +5,13 @@ import { Link } from "react-router-dom";
 const Riding = () => {
   return (
     <div className="h-screen flex flex-col">
-      {/* Home Button */}
       <Link
         to={"/home"}
         className="fixed right-4 top-4 h-12 w-12 bg-white shadow-lg flex items-center justify-center rounded-full hover:bg-gray-100 transition"
       >
         <CiHome className="text-xl font-medium text-gray-700" />
       </Link>
-
-      {/* Map Image */}
+      
       <div className="h-1/2">
         <img
           className="w-full h-full object-cover"
