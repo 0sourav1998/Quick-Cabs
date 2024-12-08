@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { CiLocationOn, CiMoneyBill, CiUser } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
+import { Link } from "react-router-dom";
 
-const ConfirmRidePopup = ({setConfirmRidePopupPanel,setRidePopupPanel}) => {
+const ConfirmRidePopup = ({ setConfirmRidePopupPanel, setRidePopupPanel }) => {
+  
+  const [otp, setOtp] = useState("")
+
+  const submitHandler = (e)=>{
+    e.preventDefault();
+  }
+
   return (
     <div>
       <h5
@@ -49,21 +57,27 @@ const ConfirmRidePopup = ({setConfirmRidePopupPanel,setRidePopupPanel}) => {
             </div>
           </div>
         </div>
-        <button
-          onClick={() => {}}
-          className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg"
-        >
-          Confirm
-        </button>
-        <button
-          onClick={() => {
-            setConfirmRidePopupPanel(false);
-            setRidePopupPanel(false)
-          }}
-          className="w-full mt-3 bg-red-500 text-white font-semibold p-2 rounded-lg"
-        >
-          Cancel
-        </button>
+        <div className="mt-6 w-full">
+          <form onSubmit={(e)=>submitHandler(e)}>
+            <input value={otp} onChange={(e)=>setOtp(e.target.value)} placeholder="Enter OTP" type="text" className="bg-[#eee] px-12 py-4 font-mono rounded-md text-lg w-full mt-2 outline-none focus-within:ring-2 focus-within:ring-blue-500"/>
+            <Link
+              to={"/captain-riding"}
+              className="flex text-lg justify-center w-full mt-12 bg-green-600 text-white font-semibold p-3 rounded-lg"
+            >
+              Confirm
+            </Link>
+            <button
+              onClick={() => {
+                setConfirmRidePopupPanel(false);
+                setRidePopupPanel(false);
+              }}
+              className="w-full text-lg mt-3 bg-red-500 text-white font-semibold p-3 rounded-lg"
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+
       </div>
     </div>
   );

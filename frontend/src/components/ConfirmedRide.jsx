@@ -46,7 +46,7 @@ const ConfirmedRide = ({ setVehicleFound, setConfirmRidePanel }) => {
             setVehicleFound(true);
             setConfirmRidePanel(false);
           }}
-          className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg"
+          className="w-full text-lg mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg"
         >
           Confirm
         </button>

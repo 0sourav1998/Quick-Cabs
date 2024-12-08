@@ -1,20 +1,21 @@
 import React from "react";
 import { CiLocationOn, CiMoneyBill, CiUser } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
+import { Link } from "react-router-dom";
 
-const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
+const FinishRide = ({setFinishRidePanel}) => {
   return (
     <div>
       <h5
         onClick={() => {
-          setRidePopupPanel(false);
+            setFinishRidePanel(false);
         }}
         className="p-3 text-center absolute top-4 right-0 cursor-pointer"
       >
         <IoIosArrowDown size={24} />
       </h5>
-      <h3 className="text-2xl font-semibold mb-5">New Ride Available</h3>
-      <div className="flex items-center justify-between p-3 bg-yellow-400 rounded-lg mt-4">
+      <h3 className="text-2xl font-semibold mb-5">Finish This Ride</h3>
+      <div className="flex items-center justify-between p-4 border-2 border-yellow-400 rounded-lg mt-4">
         <div className="flex items-center gap-4">
           <img
             className="h-12 w-12 rounded-full object-cover"
@@ -49,27 +50,18 @@ const RidePopup = ({ setRidePopupPanel, setConfirmRidePopupPanel }) => {
             </div>
           </div>
         </div>
-        <div className="flex w-full justify-between items-center mt-5">
-          <button
-            onClick={() => {
-              setRidePopupPanel(false);
-            }}
-            className="bg-gray-800 text-white font-semibold py-4 px-12 rounded-lg"
-          >
-            Ignore
-          </button>
-          <button
-            onClick={() => {
-              setConfirmRidePopupPanel(true);
-            }}
-            className=" bg-green-600 text-white font-semibold  py-4 px-12 rounded-lg"
-          >
-            Accept
-          </button>
+        <div className="mt-6 w-full">
+            <Link
+              to={"/captain-home"}
+              className="flex text-lg justify-center w-full mt-5 bg-green-600 text-white font-semibold p-3 rounded-lg"
+            >
+              Finish Ride
+            </Link>
+            <p className="text-red-600 text-center font-semibold mt-10 text-xs ">Click on Finish button Ride if You have Completed The Payment</p>
         </div>
       </div>
     </div>
   );
 };
 
-export default RidePopup;
+export default FinishRide;
