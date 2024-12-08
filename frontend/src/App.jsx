@@ -10,6 +10,7 @@ import Start from "./pages/Start";
 import UserWrapper from "./components/UserWrapper";
 import CaptainHome from "./pages/CaptainHome";
 import CaptainWrapper from "./components/CaptainWrapper";
+import Riding from "./pages/Riding";
 
 function App() {
   const name = useContext(UserDataContext);
@@ -28,6 +29,8 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/Riding" element={<Riding />} />
+
         <Route path="/captain-login" element={<CaptainLogin />} />
         <Route path="/captain-signup" element={<CaptainSignup />} />
         <Route path="/captain-home" element={<CaptainWrapper><CaptainHome /> </CaptainWrapper>}/>
